@@ -32,9 +32,11 @@ export default function NewTweet() {
   };
 
   return (
-    <form action={addTweet} className="flex flex-col">
+    <form action={addTweet} className="max-w-md flex flex-col">
       <textarea name="title" className="bg-inherit border" />
-      <button className="bg-neutral-800 py-2">Submit</button>
+      <button className="max-w-[6em] bg-sky-500 py-2 rounded-full">
+        Tweet
+      </button>
     </form>
   );
 }
