@@ -1,9 +1,9 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import AuthButtonServer from "./components/AuthButtonServer";
 import { redirect } from "next/navigation";
+import AuthButtonServer from "./components/AuthButtonServer";
 import NewTweet from "./components/NewTweet";
-import Likes from "./components/Likes";
+import TweetFeed from "./components/TweetFeed";
 
 export default async function Home() {
   const cookieStore = cookies();
@@ -35,7 +35,9 @@ export default async function Home() {
   const tweets =
     data?.map((tweet) => ({
       ...tweet,
-      user_has_liked_tweet: tweet.likes.find(
+      // check if author is an array, if so, use the first element
+      author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
+      user_has_liked_tweet: !!tweet.likes.find(
         (like) => like.user_id === session?.user.id
       ),
       likes: tweet.likes.length,
@@ -45,15 +47,7 @@ export default async function Home() {
     <>
       <AuthButtonServer />
       <NewTweet />
-      {tweets?.map((tweet) => (
-        <div className="border p-4" key={tweet.id}>
-          <p className="text-sm text-neutral-400">
-            {tweet?.author?.name} {tweet?.author?.username}
-          </p>
-          <p className="my-4">{tweet?.title}</p>
-          <Likes tweet={tweet} />
-        </div>
-      ))}
+      <TweetFeed tweets={tweets} />
     </>
   );
 }
