@@ -1,8 +1,8 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import AuthButtonServer from "./auth-button-server";
+import AuthButtonClient from "./auth-button-client";
 
-export default async function Home() {
+export default async function AuthButtonServer() {
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -17,12 +17,9 @@ export default async function Home() {
     }
   );
 
-  const { data: tweets } = await supabase.from("tweets").select();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  return (
-    <>
-      <AuthButtonServer />
-      <pre>{JSON.stringify(tweets)}</pre>
-    </>
-  );
+  return <AuthButtonClient session={session} />;
 }

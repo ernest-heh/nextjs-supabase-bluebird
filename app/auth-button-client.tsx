@@ -1,9 +1,14 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
+import { Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 
-export default function AuthButton() {
+export default function AuthButtonClient({
+  session,
+}: {
+  session: Session | null;
+}) {
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -25,10 +30,9 @@ export default function AuthButton() {
     router.refresh();
   };
 
-  return (
-    <>
-      <button onClick={handleSignIn}>Login</button>
-      <button onClick={handleSignOut}>Logout</button>
-    </>
+  return session ? (
+    <button onClick={handleSignOut}>Logout</button>
+  ) : (
+    <button onClick={handleSignIn}>Login</button>
   );
 }
