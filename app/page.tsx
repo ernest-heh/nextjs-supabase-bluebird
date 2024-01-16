@@ -30,7 +30,7 @@ export default async function Home() {
 
   const { data } = await supabase
     .from("tweets")
-    .select("*, profiles(*), likes(*)");
+    .select("*, profiles(*), likes(user_id)");
 
   const tweets =
     data?.map((tweet) => ({
