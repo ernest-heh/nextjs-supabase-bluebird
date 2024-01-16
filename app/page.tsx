@@ -24,9 +24,9 @@ export default async function Home() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) {
-    redirect("/login");
-  }
+  // if (!session) {
+  //   redirect("/login");
+  // }
 
   const { data } = await supabase
     .from("tweets")
@@ -51,7 +51,13 @@ export default async function Home() {
         <h1 className="text-lg font-bold">Home</h1>
         <AuthButtonServer />
       </div>
-      <NewTweet user={session.user} />
+      {session ? (
+        <NewTweet user={session.user} />
+      ) : (
+        <div className="flex justify-center p-3 gap-3 border-t border-neutral-700">
+          <AuthButtonServer />
+        </div>
+      )}
       <TweetFeed tweets={tweets} />
     </div>
   );
