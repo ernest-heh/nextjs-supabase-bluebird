@@ -31,8 +31,18 @@ export default function AuthButtonClient({
   };
 
   return session ? (
-    <button onClick={handleSignOut}>Logout</button>
+    <button
+      className="px-4 py-2 border border-neutral-200 rounded-full hover:opacity-60 transition-opacity"
+      onClick={handleSignOut}
+    >
+      Logout
+    </button>
   ) : (
-    <button onClick={handleSignIn}>Login</button>
+    <button
+      className="px-4 py-2 border border-neutral-200 rounded-full hover:opacity-60 transition-opacity"
+      onClick={handleSignIn}
+    >
+      Sign In with Github
+    </button>
   );
 }
