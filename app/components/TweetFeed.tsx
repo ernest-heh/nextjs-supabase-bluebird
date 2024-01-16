@@ -47,21 +47,24 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   }, [supabase, router]);
 
   return tweets.map((tweet) => (
-    <div className="border p-4" key={tweet.id}>
-      <div className="flex items-center gap-4">
+    <div className="flex gap-3 p-3 border-t border-neutral-700" key={tweet.id}>
+      <div className="">
         <Image
           alt="avatar"
           src={tweet.author.avatar_url}
           className="rounded-full"
-          width={40}
-          height={40}
+          width={48}
+          height={48}
         />
-        <p className="text-sm text-neutral-400">
-          {tweet.author.name} @{tweet.author.username}
-        </p>
       </div>
-      <p className="whitespace-pre-line my-4">{tweet?.title}</p>
-      <Likes tweet={tweet} />
+      <div className="flex flex-col w-full gap-2">
+        <p className="flex gap-2 items-end text-[0.9em]">
+          <span className="font-bold">{tweet.author.name}</span>{" "}
+          <span className="text-neutral-500">@{tweet.author.username}</span>
+        </p>
+        <p className="whitespace-pre-line">{tweet?.title}</p>
+        <Likes tweet={tweet} />
+      </div>
     </div>
   ));
 }

@@ -34,20 +34,30 @@ export default function NewTweet({ user }: { user: User }) {
   };
 
   return (
-    <form action={addTweet} className="max-w-md flex flex-col">
+    <form
+      action={addTweet}
+      className="flex p-3 gap-3 border-t border-neutral-700"
+    >
       <div className="">
         <Image
           alt="avatar"
           src={user.user_metadata.avatar_url}
           className="rounded-full"
-          width={40}
-          height={40}
+          width={48}
+          height={48}
         />
       </div>
-      <textarea name="title" className="bg-inherit border" />
-      <button className="max-w-[6em] bg-sky-500 py-2 rounded-full hover:saturate-200 transition">
-        Tweet
-      </button>
+      <div className="flex flex-col w-full gap-2">
+        <textarea
+          name="title"
+          className="bg-inherit text-lg resize-none p-2 focus:outline-none rounded-md"
+          placeholder="What is happening?"
+          rows={4}
+        />
+        <button className="w-min self-end bg-sky-500 px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:saturate-200 transition">
+          Post
+        </button>
+      </div>
     </form>
   );
 }

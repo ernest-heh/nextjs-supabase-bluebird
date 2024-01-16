@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-neutral-900 min-h-screen flex">{children}</body>
+      <body className="min-h-screen flex overscroll-none">{children}</body>
     </html>
   );
 }

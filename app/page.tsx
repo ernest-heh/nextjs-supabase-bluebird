@@ -46,7 +46,7 @@ export default async function Home() {
     })) ?? [];
 
   return (
-    <div className="bg-neutral-900 w-full max-w-lg mx-auto">
+    <div className="bg-neutral-900 w-full max-w-lg mx-auto border-x border-neutral-700">
       <div className="flex justify-between items-center px-4 py-6">
         <h1 className="text-lg font-bold">Home</h1>
         <AuthButtonServer />
