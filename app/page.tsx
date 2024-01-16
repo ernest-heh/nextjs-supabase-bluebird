@@ -32,7 +32,7 @@ export default async function Home() {
     .from("tweets")
     .select("*, author: profiles(*), likes(user_id)")
     .order("created_at", { ascending: false })
-    .limit(10);
+    .range(0, 5);
 
   const tweets =
     data?.map((tweet) => ({
