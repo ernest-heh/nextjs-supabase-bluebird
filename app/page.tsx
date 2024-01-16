@@ -31,7 +31,7 @@ export default async function Home() {
   return (
     <>
       <AuthButtonServer />
-      <pre>{JSON.stringify(tweets)}</pre>
+      <pre>{JSON.stringify(tweets, null, 2)}</pre>
     </>
   );
 }
