@@ -48,7 +48,7 @@ export default function Likes({
 
   return (
     <button
-      className="flex items-center group self-start p-2 -m-2"
+      className="flex items-center group self-start p-1 -m-1"
       onClick={handleLikes}
     >
       <svg
