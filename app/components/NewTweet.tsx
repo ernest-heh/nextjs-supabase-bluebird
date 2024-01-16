@@ -51,7 +51,7 @@ export default function NewTweet({ user }: { user: User }) {
         <textarea
           name="title"
           className="bg-inherit text-lg resize-none p-2 focus:outline-none rounded-md"
-          placeholder="What is happening?"
+          placeholder="What is happening?!"
           rows={4}
         />
         <button className="w-min self-end bg-sky-500 px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:saturate-200 transition">

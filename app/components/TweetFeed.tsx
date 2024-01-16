@@ -46,25 +46,37 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
     };
   }, [supabase, router]);
 
-  return tweets.map((tweet) => (
-    <div className="flex gap-3 p-3 border-t border-neutral-700" key={tweet.id}>
-      <div className="">
-        <Image
-          alt="avatar"
-          src={tweet.author.avatar_url}
-          className="rounded-full"
-          width={48}
-          height={48}
-        />
-      </div>
-      <div className="flex flex-col w-full gap-2">
-        <p className="flex gap-2 items-end text-[0.9em]">
-          <span className="font-bold">{tweet.author.name}</span>{" "}
-          <span className="text-neutral-500">@{tweet.author.username}</span>
-        </p>
-        <p className="whitespace-pre-line">{tweet?.title}</p>
-        <Likes tweet={tweet} />
+  return (
+    <div className="border-t border-neutral-700">
+      {tweets.map((tweet) => (
+        <div
+          className="flex gap-3 p-3 border-b border-neutral-700"
+          key={tweet.id}
+        >
+          <div className="">
+            <Image
+              alt="avatar"
+              src={tweet.author.avatar_url}
+              className="rounded-full"
+              width={48}
+              height={48}
+            />
+          </div>
+          <div className="flex flex-col w-full gap-2">
+            <p className="flex gap-2 items-end text-[0.9em]">
+              <span className="font-bold">{tweet.author.name}</span>{" "}
+              <span className="text-neutral-500">@{tweet.author.username}</span>
+            </p>
+            <p className="whitespace-pre-line">{tweet?.title}</p>
+            <Likes tweet={tweet} />
+          </div>
+        </div>
+      ))}
+      <div className="flex justify-center">
+        <button className="py-1 px-3 m-4 rounded-full border border-neutral-700">
+          Load More
+        </button>
       </div>
     </div>
-  ));
+  );
 }
