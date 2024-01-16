@@ -30,7 +30,7 @@ export default async function Home() {
 
   const { data } = await supabase
     .from("tweets")
-    .select("*, profiles(*), likes(user_id)");
+    .select("*, author: profiles(*), likes(user_id)");
 
   const tweets =
     data?.map((tweet) => ({
@@ -48,7 +48,7 @@ export default async function Home() {
       {tweets?.map((tweet) => (
         <div className="border p-4" key={tweet.id}>
           <p className="text-sm text-neutral-400">
-            {tweet?.profiles?.name} {tweet?.profiles?.username}
+            {tweet?.author?.name} {tweet?.author?.username}
           </p>
           <p className="my-4">{tweet?.title}</p>
           <Likes tweet={tweet} />
