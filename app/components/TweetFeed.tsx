@@ -4,6 +4,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import Likes from "./Likes";
 import { useEffect, useOptimistic } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   // const [optimisticTweets, addOptimisticTweet] = useOptimistic<
@@ -43,14 +44,23 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [supabase]);
+  }, [supabase, router]);
 
   return tweets.map((tweet) => (
     <div className="border p-4" key={tweet.id}>
-      <p className="text-sm text-neutral-400">
-        {tweet.author.name} {tweet.author.username}
-      </p>
-      <p className="my-4">{tweet?.title}</p>
+      <div className="flex items-center gap-4">
+        <Image
+          alt="avatar"
+          src={tweet.author.avatar_url}
+          className="rounded-full"
+          width={40}
+          height={40}
+        />
+        <p className="text-sm text-neutral-400">
+          {tweet.author.name} {tweet.author.username}
+        </p>
+      </div>
+      <p className="whitespace-pre-line my-4">{tweet?.title}</p>
       <Likes tweet={tweet} />
     </div>
   ));
