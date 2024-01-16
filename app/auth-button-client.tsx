@@ -42,7 +42,7 @@ export default function AuthButtonClient({
       className="px-4 py-2 border border-neutral-200 rounded-full hover:opacity-60 transition-opacity"
       onClick={handleSignIn}
     >
-      Sign In with Github
+      Login with Github
     </button>
   );
 }
