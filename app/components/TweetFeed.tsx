@@ -57,7 +57,7 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
           height={40}
         />
         <p className="text-sm text-neutral-400">
-          {tweet.author.name} {tweet.author.username}
+          {tweet.author.name} @{tweet.author.username}
         </p>
       </div>
       <p className="whitespace-pre-line my-4">{tweet?.title}</p>

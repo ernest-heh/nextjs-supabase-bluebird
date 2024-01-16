@@ -32,14 +32,14 @@ export default function AuthButtonClient({
 
   return session ? (
     <button
-      className="px-4 py-2 border border-neutral-200 rounded-full hover:opacity-60 transition-opacity"
+      className="text-xs px-3 py-1 bg-neutral-700 rounded-full hover:opacity-60 transition-opacity"
       onClick={handleSignOut}
     >
       Logout
     </button>
   ) : (
     <button
-      className="px-4 py-2 border border-neutral-200 rounded-full hover:opacity-60 transition-opacity"
+      className="text-xs px-3 py-1 bg-neutral-700 rounded-full hover:opacity-60 transition-opacity"
       onClick={handleSignIn}
     >
       Login with Github
