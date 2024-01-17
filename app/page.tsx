@@ -5,6 +5,7 @@ import AuthButtonServer from "./components/AuthButtonServer";
 import TweetFeed from "./components/TweetFeed";
 import NewTweet from "./components/NewTweet";
 import { fetchTweets } from "./lib/actions";
+import SideNav from "./components/SideNav";
 
 const INITIAL_NUMBER_OF_TWEETS = 100;
 
@@ -53,19 +54,25 @@ export default async function Home() {
   const tweets = await fetchTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
 
   return (
-    <div className="bg-neutral-900 w-full max-w-lg mx-auto border-x border-neutral-700">
-      <div className="flex justify-between items-center px-4 py-6">
-        <h1 className="text-lg font-bold">Home</h1>
-        <AuthButtonServer />
-      </div>
-      {session ? (
-        <NewTweet user={session.user} />
-      ) : (
-        <div className="flex justify-center p-3 gap-3 border-t border-neutral-700">
-          <AuthButtonServer />
+    <>
+      <SideNav />
+      <main className="max-w-[600px] h-full min-h-screen bg-neutral-900 border-x border-neutral-700">
+        <div className="flex justify-between items-center px-4 py-6">
+          <h1 className="text-lg font-bold">Home</h1>
+          {/* <AuthButtonServer /> */}
         </div>
-      )}
-      <TweetFeed tweets={tweets} />
-    </div>
+        {session ? (
+          <NewTweet user={session.user} />
+        ) : (
+          <div className="flex justify-center p-3 gap-3 border-t border-neutral-700">
+            <AuthButtonServer />
+          </div>
+        )}
+        <TweetFeed tweets={tweets} />
+      </main>
+      <section className="hidden lg:flex w-[300px] pb-20 flex-col gap-2">
+        Sidebar
+      </section>
+    </>
   );
 }
