@@ -6,7 +6,8 @@ import { useEffect, useOptimistic, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Tweet from "./Tweet";
-import { getTweets } from "../lib/actions";
+import { fetchTweets } from "../lib/actions";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 const NUMBER_OF_TWEETS_TO_LOAD = 5;
 
@@ -28,7 +29,7 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   // const [tweetsArray, setTweetsArray] = useState<TweetWithAuthor[]>(tweets);
 
   // const loadMoreTweets = async () => {
-  //   const dataTweets = await getTweets(offset, limit);
+  //   const dataTweets = await fetchTweets(offset, limit);
   //   setTweetsArray([...tweetsArray, ...dataTweets]);
   //   setLimit(limit + NUMBER_OF_TWEETS_TO_LOAD);
   //   setOffset(offset + NUMBER_OF_TWEETS_TO_LOAD);
@@ -66,14 +67,14 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
       {tweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
-      {/* <div className="flex justify-center">
-        <button
-          // onClick={loadMoreTweets}
+      <div className="flex justify-center">
+        {/* <button
+          onClick={loadMoreTweets}
           className="py-1 px-3 m-4 rounded-full border border-neutral-700"
         >
           Load More
-        </button>
-      </div> */}
+        </button> */}
+      </div>
     </div>
   );
 }

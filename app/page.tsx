@@ -2,11 +2,11 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AuthButtonServer from "./components/AuthButtonServer";
-import NewTweet from "./components/NewTweet";
 import TweetFeed from "./components/TweetFeed";
-import { getTweets } from "./lib/actions";
+import NewTweet from "./components/NewTweet";
+import { fetchTweets } from "./lib/actions";
 
-const INITIAL_NUMBER_OF_TWEETS = 5;
+const INITIAL_NUMBER_OF_TWEETS = 100;
 
 export default async function Home() {
   // const initialTweets = await getTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
@@ -33,22 +33,24 @@ export default async function Home() {
   //   redirect("/login");
   // }
 
-  const { data } = await supabase
-    .from("tweets")
-    .select("*, author: profiles(*), likes(user_id)")
-    .order("created_at", { ascending: false });
-  // .range(0, 5);
+  // const { data } = await supabase
+  //   .from("tweets")
+  //   .select("*, author: profiles(*), likes(user_id)")
+  //   .order("created_at", { ascending: false });
+  // // .range(0, 5);
 
-  const tweets =
-    data?.map((tweet) => ({
-      ...tweet,
-      // check if author is an array, if so, use the first element
-      author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
-      user_has_liked_tweet: !!tweet.likes.find(
-        (like) => like.user_id === session?.user.id
-      ),
-      likes: tweet.likes.length,
-    })) ?? [];
+  // const tweets =
+  //   data?.map((tweet) => ({
+  //     ...tweet,
+  //     // check if author is an array, if so, use the first element
+  //     author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
+  //     user_has_liked_tweet: !!tweet.likes.find(
+  //       (like) => like.user_id === session?.user.id
+  //     ),
+  //     likes: tweet.likes.length,
+  //   })) ?? [];
+
+  const tweets = await fetchTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
 
   return (
     <div className="bg-neutral-900 w-full max-w-lg mx-auto border-x border-neutral-700">
