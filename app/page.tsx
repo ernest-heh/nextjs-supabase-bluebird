@@ -60,6 +60,7 @@ export default async function Home() {
   return (
     <>
       <SideNav />
+
       <main className="max-w-[600px] h-full min-h-screen border-x border-neutral-700">
         <div className="flex justify-between items-center px-4 py-6">
           <h1 className="text-lg font-bold">Home</h1>
@@ -74,9 +75,7 @@ export default async function Home() {
         )}
         <TweetFeed tweets={tweets} />
       </main>
-      {/* <section className="hidden lg:flex w-[300px] pb-20 flex-col gap-2">
-        Sidebar
-      </section> */}
+
       <RightSideBar />
     </>
   );

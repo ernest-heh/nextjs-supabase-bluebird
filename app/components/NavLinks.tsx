@@ -72,7 +72,7 @@ export default function NavLinks() {
     //   <p>Button</p>
     //   <p>Button</p>
     // </div>
-    <div className="text-xl pe-4">
+    <div className="text-xl pe-2 sm:pe-4">
       {NAVIGATION_ITEMS.map((item) => (
         <Link
           className="hover:bg-black/10 dark:hover:bg-white/10 transition duration-200 rounded-full px-4 py-3 mb-2 flex justify-start w-fit items-center space-x-4"

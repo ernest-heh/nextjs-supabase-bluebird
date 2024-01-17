@@ -13,11 +13,11 @@ export default async function SideNav() {
   } = await supabase.auth.getSession();
 
   return (
-    <aside className="block min-w-20 xl:w-[275px] p-1 pe-4 pb-4 relative">
+    <aside className="block min-w-[4.5em] xl:w-[275px] ps-1 pb-4 relative">
       <div className="fixed top-0 h-screen pb-4 flex flex-col justify-between">
         <NavLinks />
         {/* <p>Logout</p> */}
-        <div className="">
+        <div className="pe-2 sm:pe-4">
           <AuthButtonServer />
           {session?.user && (
             <Link
@@ -49,6 +49,12 @@ export default async function SideNav() {
             </Link>
           )}
         </div>
+        {/* <button className="w-full rounded-full text-white font-bold bg-twitter py-3 mt-4 hover:bg-opacity-80 transition duration-200">
+          <span className="hidden xl:block">Tweet</span>
+          <span className="grid xl:hidden place-items-center text-3xl">
+            <BsPlus />
+          </span>
+        </button> */}
       </div>
     </aside>
   );
