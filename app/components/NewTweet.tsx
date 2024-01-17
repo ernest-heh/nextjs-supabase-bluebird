@@ -4,6 +4,7 @@ import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { addTweet } from "../lib/actions";
 import { useRef } from "react";
+import { useFormStatus } from "react-dom";
 
 export default function NewTweet({ user }: { user: User }) {
   const ref = useRef<HTMLFormElement>(null);
@@ -33,10 +34,23 @@ export default function NewTweet({ user }: { user: User }) {
           placeholder="What is happening?!"
           rows={4}
         />
-        <button className="w-min self-end bg-sky-500 px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:saturate-200 transition">
-          Post
-        </button>
+        <SubmitButton />
       </div>
     </form>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      aria-disabled={pending}
+      className={`w-min self-end bg-sky-500 px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:saturate-200 transition ${
+        pending && "opacity-50 cursor-not-allowed"
+      }`}
+    >
+      Post
+    </button>
   );
 }
