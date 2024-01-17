@@ -1,11 +1,9 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
-import { useEffect, useOptimistic, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Tweet from "./Tweet";
-
-const NUMBER_OF_TWEETS_TO_LOAD = 5;
 
 export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   // const [optimisticTweets, addOptimisticTweet] = useOptimistic<
@@ -59,14 +57,14 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   }, [supabase, router]);
 
   return (
-    <div className="border-t border-neutral-700">
+    <div className="">
       {tweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
       <div className="flex justify-center">
         {/* <button
           onClick={loadMoreTweets}
-          className="py-1 px-3 m-4 rounded-full border border-neutral-700"
+          className="py-1 px-3 m-4 rounded-full border border-neutral-200 dark:border-white/20"
         >
           Load More
         </button> */}

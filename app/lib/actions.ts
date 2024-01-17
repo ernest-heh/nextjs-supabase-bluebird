@@ -1,13 +1,15 @@
 "use server";
 
-import { createServerClient } from "@supabase/ssr";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
-import { Profile } from "./global";
-import { redirect } from "next/navigation";
 import { getDbOnServer } from "./supabase";
 
-export const fetchTweets = async (offset: number, limit: number) => {
+export const fetchTweets = async ({
+  offset,
+  limit,
+}: {
+  offset: number;
+  limit: number;
+}) => {
   const supabase = await getDbOnServer();
 
   const {
