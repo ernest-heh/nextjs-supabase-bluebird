@@ -5,22 +5,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { Profile } from "./global";
 import { redirect } from "next/navigation";
-
-const cookieStore = cookies();
-
-const supabase = createServerClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  {
-    cookies: {
-      get(name: string) {
-        return cookieStore.get(name)?.value;
-      },
-    },
-  }
-);
+import { getDbOnServer } from "./supabase";
 
 export const fetchTweets = async (offset: number, limit: number) => {
+  const supabase = await getDbOnServer();
+
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -56,21 +45,15 @@ export const fetchTweets = async (offset: number, limit: number) => {
 export const addTweet = async (formData: FormData) => {
   const title = String(formData.get("title"));
 
+  const supabase = await getDbOnServer();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (user) {
-    try {
-      await supabase.from("tweets").insert({ title, user_id: user.id });
+    await supabase.from("tweets").insert({ title, user_id: user.id });
 
-      revalidatePath("/");
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error posting tweet: ${error.message}`);
-      } else {
-        throw new Error(`Unknown error: ${error}`);
-      }
-    }
+    revalidatePath("/");
   }
 };
