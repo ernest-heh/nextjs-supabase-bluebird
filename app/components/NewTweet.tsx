@@ -18,7 +18,7 @@ export default function NewTweet({ user }: { user: User }) {
       className="flex p-3 gap-3 border-y border-neutral-200 dark:border-white/20"
       ref={ref}
     >
-      <div className="">
+      <div className="shrink-0">
         <Image
           alt="avatar"
           src={user.user_metadata.avatar_url}
