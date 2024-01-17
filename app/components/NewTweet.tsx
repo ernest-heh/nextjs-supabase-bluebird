@@ -15,7 +15,7 @@ export default function NewTweet({ user }: { user: User }) {
         await addTweet(formData);
         ref.current?.reset();
       }}
-      className="flex p-3 gap-3 border-t border-neutral-700"
+      className="flex p-3 gap-3 border-y border-neutral-200 dark:border-white/20"
       ref={ref}
     >
       <div className="">
@@ -46,7 +46,7 @@ function SubmitButton() {
     <button
       type="submit"
       aria-disabled={pending}
-      className={`w-min self-end bg-sky-500 px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:saturate-200 transition ${
+      className={`w-min self-end bg-twitter text-white px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:bg-opacity-80 transition duration-200 ${
         pending && "opacity-50 cursor-not-allowed"
       }`}
     >
