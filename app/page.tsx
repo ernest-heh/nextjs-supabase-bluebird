@@ -6,25 +6,29 @@ import TweetFeed from "./components/TweetFeed";
 import NewTweet from "./components/NewTweet";
 import { fetchTweets } from "./lib/actions";
 import SideNav from "./components/SideNav";
+import RightSideBar from "./components/RightSideBar";
+import { getDbOnServer } from "./lib/supabase";
 
 const INITIAL_NUMBER_OF_TWEETS = 100;
 
 export default async function Home() {
   // const initialTweets = await getTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
 
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
 
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
+  // const supabase = createServerClient<Database>(
+  //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  //   {
+  //     cookies: {
+  //       get(name: string) {
+  //         return cookieStore.get(name)?.value;
+  //       },
+  //     },
+  //   }
+  // );
+
+  const supabase = await getDbOnServer();
 
   const {
     data: { session },
@@ -56,7 +60,7 @@ export default async function Home() {
   return (
     <>
       <SideNav />
-      <main className="max-w-[600px] h-full min-h-screen bg-neutral-900 border-x border-neutral-700">
+      <main className="max-w-[600px] h-full min-h-screen border-x border-neutral-700">
         <div className="flex justify-between items-center px-4 py-6">
           <h1 className="text-lg font-bold">Home</h1>
           {/* <AuthButtonServer /> */}
@@ -70,9 +74,10 @@ export default async function Home() {
         )}
         <TweetFeed tweets={tweets} />
       </main>
-      <section className="hidden lg:flex w-[300px] pb-20 flex-col gap-2">
+      {/* <section className="hidden lg:flex w-[300px] pb-20 flex-col gap-2">
         Sidebar
-      </section>
+      </section> */}
+      <RightSideBar />
     </>
   );
 }
