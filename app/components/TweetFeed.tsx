@@ -1,13 +1,9 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
-import Likes from "./Likes";
 import { useEffect, useOptimistic, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Tweet from "./Tweet";
-import { fetchTweets } from "../lib/actions";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 const NUMBER_OF_TWEETS_TO_LOAD = 5;
 
