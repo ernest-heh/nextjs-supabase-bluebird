@@ -9,7 +9,7 @@ import SideNav from "./components/SideNav";
 import RightSideBar from "./components/RightSideBar";
 import { getDbOnServer } from "./lib/supabase";
 
-const INITIAL_NUMBER_OF_TWEETS = 100;
+const INITIAL_NUMBER_OF_TWEETS = 10;
 
 export default async function Home() {
   // const initialTweets = await getTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
@@ -61,7 +61,7 @@ export default async function Home() {
     <>
       <SideNav />
 
-      <main className="max-w-[600px] h-full min-h-screen border-x border-neutral-700">
+      <main className="w-full max-w-[600px] h-full min-h-screen border-x border-neutral-700">
         <div className="flex justify-between items-center px-4 py-6">
           <h1 className="text-lg font-bold">Home</h1>
           {/* <AuthButtonServer /> */}
