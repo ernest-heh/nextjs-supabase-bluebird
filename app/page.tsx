@@ -4,8 +4,13 @@ import { redirect } from "next/navigation";
 import AuthButtonServer from "./components/AuthButtonServer";
 import NewTweet from "./components/NewTweet";
 import TweetFeed from "./components/TweetFeed";
+import { getTweets } from "./lib/actions";
+
+const INITIAL_NUMBER_OF_TWEETS = 5;
 
 export default async function Home() {
+  // const initialTweets = await getTweets(0, INITIAL_NUMBER_OF_TWEETS - 1);
+
   const cookieStore = cookies();
 
   const supabase = createServerClient<Database>(
@@ -31,8 +36,8 @@ export default async function Home() {
   const { data } = await supabase
     .from("tweets")
     .select("*, author: profiles(*), likes(user_id)")
-    .order("created_at", { ascending: false })
-    .range(0, 5);
+    .order("created_at", { ascending: false });
+  // .range(0, 5);
 
   const tweets =
     data?.map((tweet) => ({
@@ -44,6 +49,8 @@ export default async function Home() {
       ),
       likes: tweet.likes.length,
     })) ?? [];
+
+  // const formatTweetsWithLikeData = async (data) => {};
 
   return (
     <div className="bg-neutral-900 w-full max-w-lg mx-auto border-x border-neutral-700">

@@ -2,9 +2,13 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 import Likes from "./Likes";
-import { useEffect, useOptimistic } from "react";
+import { useEffect, useOptimistic, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Tweet from "./Tweet";
+import { getTweets } from "../lib/actions";
+
+const NUMBER_OF_TWEETS_TO_LOAD = 5;
 
 export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   // const [optimisticTweets, addOptimisticTweet] = useOptimistic<
@@ -18,6 +22,17 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   //   newOptimisticTweets[index] = newTweet;
   //   return newOptimisticTweets;
   // });
+
+  // const [offset, setOffset] = useState(NUMBER_OF_TWEETS_TO_LOAD + 1);
+  // const [limit, setLimit] = useState(10);
+  // const [tweetsArray, setTweetsArray] = useState<TweetWithAuthor[]>(tweets);
+
+  // const loadMoreTweets = async () => {
+  //   const dataTweets = await getTweets(offset, limit);
+  //   setTweetsArray([...tweetsArray, ...dataTweets]);
+  //   setLimit(limit + NUMBER_OF_TWEETS_TO_LOAD);
+  //   setOffset(offset + NUMBER_OF_TWEETS_TO_LOAD);
+  // };
 
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -49,34 +64,16 @@ export default function TweetFeed({ tweets }: { tweets: TweetWithAuthor[] }) {
   return (
     <div className="border-t border-neutral-700">
       {tweets.map((tweet) => (
-        <div
-          className="flex gap-3 p-3 border-b border-neutral-700"
-          key={tweet.id}
-        >
-          <div className="">
-            <Image
-              alt="avatar"
-              src={tweet.author.avatar_url}
-              className="rounded-full"
-              width={48}
-              height={48}
-            />
-          </div>
-          <div className="flex flex-col w-full gap-2">
-            <p className="flex gap-2 items-end text-[0.9em]">
-              <span className="font-bold">{tweet.author.name}</span>{" "}
-              <span className="text-neutral-500">@{tweet.author.username}</span>
-            </p>
-            <p className="whitespace-pre-line">{tweet?.title}</p>
-            <Likes tweet={tweet} />
-          </div>
-        </div>
+        <Tweet key={tweet.id} tweet={tweet} />
       ))}
-      <div className="flex justify-center">
-        <button className="py-1 px-3 m-4 rounded-full border border-neutral-700">
+      {/* <div className="flex justify-center">
+        <button
+          // onClick={loadMoreTweets}
+          className="py-1 px-3 m-4 rounded-full border border-neutral-700"
+        >
           Load More
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
