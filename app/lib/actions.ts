@@ -1,6 +1,7 @@
 "use server";
 
 import { createServerClient } from "@supabase/ssr";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export const getTweets = async (offset: number, limit: number) => {
@@ -47,5 +48,32 @@ export const getTweets = async (offset: number, limit: number) => {
     } else {
       throw new Error(`Unknown error: ${error}`);
     }
+  }
+};
+
+export const addTweet = async (formData: FormData) => {
+  const title = String(formData.get("title"));
+
+  const cookieStore = cookies();
+
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    await supabase.from("tweets").insert({ title, user_id: user.id });
+    revalidatePath("/");
   }
 };

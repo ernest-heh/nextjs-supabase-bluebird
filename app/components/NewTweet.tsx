@@ -1,42 +1,21 @@
-import { createServerClient } from "@supabase/ssr";
+"use client";
+
 import { User } from "@supabase/supabase-js";
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import Image from "next/image";
+import { addTweet } from "../lib/actions";
+import { useRef } from "react";
 
 export default function NewTweet({ user }: { user: User }) {
-  const addTweet = async (formData: FormData) => {
-    "use server";
-    const title = String(formData.get("title"));
-
-    const cookieStore = cookies();
-
-    const supabase = createServerClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
-    );
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      await supabase.from("tweets").insert({ title, user_id: user.id });
-      revalidatePath("/");
-    }
-  };
+  const ref = useRef<HTMLFormElement>(null);
 
   return (
     <form
-      action={addTweet}
+      action={async (formData) => {
+        await addTweet(formData);
+        ref.current?.reset();
+      }}
       className="flex p-3 gap-3 border-t border-neutral-700"
+      ref={ref}
     >
       <div className="">
         <Image

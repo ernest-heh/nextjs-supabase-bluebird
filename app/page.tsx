@@ -50,8 +50,6 @@ export default async function Home() {
       likes: tweet.likes.length,
     })) ?? [];
 
-  // const formatTweetsWithLikeData = async (data) => {};
-
   return (
     <div className="bg-neutral-900 w-full max-w-lg mx-auto border-x border-neutral-700">
       <div className="flex justify-between items-center px-4 py-6">
