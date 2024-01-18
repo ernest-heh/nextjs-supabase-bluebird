@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
+import { cn } from "../lib/utils";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 export default function Likes({
   tweet,
@@ -49,26 +51,23 @@ export default function Likes({
       className="flex items-center group self-start p-1 -m-1"
       onClick={handleLikes}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`group-hover:fill-rose-500 group-hover:stroke-rose-500 ${
-          tweet.user_has_liked_tweet
-            ? "fill-rose-500 stroke-rose-500"
-            : "fill-none stroke-neutral-500"
-        }`}
-      >
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      </svg>
+      <div className="rounded-full aspect-square p-2 -ms-2 group-hover:text-like group-hover:bg-like/20 transition duration-100 ">
+        {tweet.user_has_liked_tweet ? (
+          <AiFillHeart
+            size={20}
+            className="text-like animate-in fade-in-50 zoom-in-150 duration-200"
+          />
+        ) : (
+          <AiOutlineHeart size={20} />
+        )}
+      </div>
+      {tweet.user_has_liked_tweet}
       <span
-        className={`ml-2 text-sm group-hover:text-rose-500 ${
-          tweet.user_has_liked_tweet ? "text-rose-500" : "text-neutral-500"
-        }`}
+        className={cn(
+          "group-hover:text-like text-sm transition duration-100",
+          tweet.user_has_liked_tweet &&
+            "text-like animate-in fade-in-0 slide-in-from-top duration-200"
+        )}
       >
         {tweet.likes}
       </span>
