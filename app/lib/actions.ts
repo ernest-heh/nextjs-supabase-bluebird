@@ -2,14 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "./supabase/supabase-server";
+import { Profile } from "./global";
 
-export const fetchTweets = async ({
-  offset,
-  limit,
-}: {
+interface FetchTweetProps {
   offset: number;
   limit: number;
-}) => {
+  id?: string | null;
+}
+
+export const fetchTweets = async ({ offset, limit, id }: FetchTweetProps) => {
   const supabase = await createSupabaseServerClient();
 
   const {
@@ -23,18 +24,35 @@ export const fetchTweets = async ({
       .order("created_at", { ascending: false })
       .range(offset, limit);
 
-    const tweets =
-      data?.map((tweet) => ({
-        ...tweet,
-        // check if author is an array, if so, use the first element
-        author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
-        user_has_liked_tweet: !!tweet.likes.find(
-          (like) => like.user_id === session?.user.id
-        ),
-        likes: tweet.likes.length,
-      })) ?? [];
-
-    return tweets;
+    if (id) {
+      const tweets =
+        data
+          ?.filter((tweet) => tweet.user_id === id)
+          .map((tweet) => ({
+            ...tweet,
+            // check if author is an array, if so, use the first element
+            author: Array.isArray(tweet.author)
+              ? tweet.author[0]
+              : tweet.author,
+            user_has_liked_tweet: !!tweet.likes.find(
+              (like) => like.user_id === session?.user.id
+            ),
+            likes: tweet.likes.length,
+          })) ?? [];
+      return tweets;
+    } else {
+      const tweets =
+        data?.map((tweet) => ({
+          ...tweet,
+          // check if author is an array, if so, use the first element
+          author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
+          user_has_liked_tweet: !!tweet.likes.find(
+            (like) => like.user_id === session?.user.id
+          ),
+          likes: tweet.likes.length,
+        })) ?? [];
+      return tweets;
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Error fetching tweets: ${error.message}`);
@@ -42,6 +60,17 @@ export const fetchTweets = async ({
       throw new Error(`Unknown error: ${error}`);
     }
   }
+};
+
+export const fetchTotalTweetsFromUser = async (id: string) => {
+  const supabase = await createSupabaseServerClient();
+
+  const { data } = await supabase
+    .from("tweets")
+    .select("*, author: profiles(*)")
+    .eq("user_id", id);
+
+  return data?.length;
 };
 
 export const addTweet = async (formData: FormData) => {
@@ -58,4 +87,16 @@ export const addTweet = async (formData: FormData) => {
 
     revalidatePath("/");
   }
+};
+
+export const getProfile = async (username: string) => {
+  const supabase = await createSupabaseServerClient();
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("username", username)
+    .single();
+
+  return data as Profile;
 };

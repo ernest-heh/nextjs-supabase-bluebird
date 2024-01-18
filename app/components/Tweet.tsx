@@ -4,6 +4,7 @@ import { formatDateToLocal } from "../lib/utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import Link from "next/link";
 
 type TweetProps = {
   tweet: TweetWithAuthor;
@@ -37,18 +38,24 @@ export default function Tweet({ tweet }: TweetProps) {
       key={tweet.id}
     >
       <div className="shrink-0">
-        <Image
-          alt="avatar"
-          src={tweet.author.avatar_url}
-          className="rounded-full"
-          width={48}
-          height={48}
-        />
+        <Link href={`/profile/${tweet.author.username}`}>
+          <Image
+            alt="avatar"
+            src={tweet.author.avatar_url}
+            className="rounded-full hover:opacity-80 transition duration-200"
+            width={48}
+            height={48}
+          />
+        </Link>
       </div>
       <div className="flex flex-col w-full gap-2">
         <p className="flex gap-1 items-end text-[0.9em]">
-          <span className="font-bold">{tweet.author.name}</span>{" "}
-          <span className="text-neutral-500">@{tweet.author.username}</span>
+          <Link href={`/profile/${tweet.author.username}`}>
+            <span className="font-bold hover:underline">
+              {tweet.author.name}
+            </span>{" "}
+            <span className="text-neutral-500">@{tweet.author.username}</span>
+          </Link>
           <span className="text-neutral-500">•</span>
           <span className="text-neutral-500">
             {/* {new Date(tweet.created_at).toLocaleDateString()} */}

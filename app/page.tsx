@@ -23,28 +23,22 @@ export default async function Home() {
 
   return (
     <>
-      <SideNav />
+      <div className="flex justify-between items-center px-3 py-6 border-b border-neutral-200 dark:border-white/20">
+        <h1 className="text-lg font-bold">Home</h1>
+      </div>
 
-      <main className="w-full max-w-[600px] h-full min-h-screen border-x border-neutral-200 dark:border-white/20">
-        <div className="flex justify-between items-center px-4 py-6">
-          <h1 className="text-lg font-bold">Home</h1>
+      {session ? (
+        <NewTweet user={session.user} />
+      ) : (
+        <div className="flex justify-center p-3 gap-3 border-t border-neutral-200 dark:border-white/20">
+          <AuthButtonServer />
         </div>
+      )}
 
-        {session ? (
-          <NewTweet user={session.user} />
-        ) : (
-          <div className="flex justify-center p-3 gap-3 border-t border-neutral-200 dark:border-white/20">
-            <AuthButtonServer />
-          </div>
-        )}
-
-        {tweets.map((tweet) => (
-          <Tweet key={tweet.id} tweet={tweet} />
-        ))}
-        <LoadMoreTweets />
-      </main>
-
-      <RightSideBar />
+      {tweets.map((tweet) => (
+        <Tweet key={tweet.id} tweet={tweet} />
+      ))}
+      <LoadMoreTweets />
     </>
   );
 }
