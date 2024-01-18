@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import useInView from "../hooks/useInView";
-import { fetchTweets, fetchTweetsFromUser } from "../lib/actions";
+import { fetchTweets } from "../lib/actions";
 import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
 import Tweet from "./Tweet";
 
