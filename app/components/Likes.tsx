@@ -1,7 +1,7 @@
 "use client";
 
-import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
+import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
 
 export default function Likes({
   tweet,
@@ -11,11 +11,9 @@ export default function Likes({
   // addOptimisticTweet: (newTweet: TweetWithAuthor) => void;
 }) {
   const router = useRouter();
+
   const handleLikes = async () => {
-    const supabase = createBrowserClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+    const supabase = createSupabaseBrowserClient();
 
     const {
       data: { user },

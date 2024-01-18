@@ -1,10 +1,9 @@
 "use server";
 
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { cache } from "react";
 
-export const getDbOnServer = cache(async () => {
+export const createSupabaseServerClient = async (serverComponent = false) => {
   const cookieStore = cookies();
 
   return createServerClient<Database>(
@@ -16,12 +15,18 @@ export const getDbOnServer = cache(async () => {
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
+          if (serverComponent) return;
           cookieStore.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
+          if (serverComponent) return;
           cookieStore.set({ name, value: "", ...options });
         },
       },
     }
   );
-});
+};
+
+export const createSupabaseServerComponentClient = () => {
+  return createSupabaseServerClient(true);
+};

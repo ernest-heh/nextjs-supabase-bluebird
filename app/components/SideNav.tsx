@@ -1,12 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
+import { BsThreeDots } from "react-icons/bs";
+import { createSupabaseServerComponentClient } from "../lib/supabase/supabase-server";
 import AuthButtonServer from "./AuthButtonServer";
 import NavLinks from "./NavLinks";
-import { getDbOnServer } from "../lib/supabase";
-import { BsThreeDots } from "react-icons/bs";
-import Image from "next/image";
 
 export default async function SideNav() {
-  const supabase = await getDbOnServer();
+  const supabase = await createSupabaseServerComponentClient();
 
   const {
     data: { session },

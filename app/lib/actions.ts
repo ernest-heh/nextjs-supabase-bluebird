@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getDbOnServer } from "./supabase";
+import { createSupabaseServerClient } from "./supabase/supabase-server";
 
 export const fetchTweets = async ({
   offset,
@@ -10,7 +10,7 @@ export const fetchTweets = async ({
   offset: number;
   limit: number;
 }) => {
-  const supabase = await getDbOnServer();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { session },
@@ -47,7 +47,7 @@ export const fetchTweets = async ({
 export const addTweet = async (formData: FormData) => {
   const title = String(formData.get("title"));
 
-  const supabase = await getDbOnServer();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { user },

@@ -1,12 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import useInView from "../hooks/useInView";
 import { fetchTweets } from "../lib/actions";
+import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
 import Tweet from "./Tweet";
-import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
 
 const INITIAL_NUMBER_OF_TWEETS = 10;
 
@@ -19,10 +19,7 @@ export default function LoadMoreTweets() {
   const offset = tweetData.length + INITIAL_NUMBER_OF_TWEETS;
   const limit = offset + INITIAL_NUMBER_OF_TWEETS - 1;
 
-  const supabase = createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createSupabaseBrowserClient();
   const router = useRouter();
 
   useEffect(() => {
