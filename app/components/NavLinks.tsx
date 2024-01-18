@@ -16,54 +16,54 @@ import { BsPlus } from "react-icons/bs";
 import { FaTwitter } from "react-icons/fa";
 import { cn } from "../lib/utils";
 
-const NAVIGATION_ITEMS = [
-  {
-    title: "Twitter",
-    pathname: "/",
-    icon: FaTwitter,
-    iconSelect: FaTwitter,
-  },
-  {
-    title: "Home",
-    pathname: "/",
-    icon: BiHomeCircle,
-    iconSelect: BiSolidHomeCircle,
-  },
-  {
-    title: "Explore",
-    pathname: "/explore",
-    icon: BiSearch,
-    iconSelect: BiSearch,
-  },
-  {
-    title: "Notifications",
-    pathname: "/notifications",
-    icon: BiBell,
-    iconSelect: BiBell,
-  },
-  {
-    title: "Messages",
-    pathname: "/messages",
-    icon: BiEnvelope,
-    iconSelect: BiEnvelope,
-  },
-  {
-    title: "Bookmarks",
-    pathname: "/bookmarks",
-    icon: BiBookmark,
-    iconSelect: BiBookmark,
-  },
-  // {
-  //   title: "Profile",
-  //   // pathname: "/profile",
-  //   pathname: `/profile/${userHandle}`,
-  //   icon: BiUser,
-  //   iconSelect: BiSolidUser,
-  // },
-];
-
 export default function NavLinks() {
   const pathname = usePathname();
+
+  const NAVIGATION_ITEMS = [
+    {
+      title: "Twitter",
+      pathname: "/",
+      icon: FaTwitter,
+      iconSelect: FaTwitter,
+    },
+    {
+      title: "Home",
+      pathname: "/",
+      icon: BiHomeCircle,
+      iconSelect: BiSolidHomeCircle,
+    },
+    {
+      title: "Explore",
+      pathname: "/explore",
+      icon: BiSearch,
+      iconSelect: BiSearch,
+    },
+    {
+      title: "Notifications",
+      pathname: "/notifications",
+      icon: BiBell,
+      iconSelect: BiBell,
+    },
+    {
+      title: "Messages",
+      pathname: "/messages",
+      icon: BiEnvelope,
+      iconSelect: BiEnvelope,
+    },
+    {
+      title: "Bookmarks",
+      pathname: "/bookmarks",
+      icon: BiBookmark,
+      iconSelect: BiBookmark,
+    },
+    // {
+    //   title: "Profile",
+    //   // pathname: "/profile",
+    //   pathname: `/profile/${userHandle}`,
+    //   icon: BiUser,
+    //   iconSelect: BiSolidUser,
+    // },
+  ];
 
   return (
     // <div className="">

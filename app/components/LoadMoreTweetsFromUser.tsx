@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import useInView from "../hooks/useInView";
-import { fetchTweets } from "../lib/actions";
+import { fetchTweets, fetchTweetsFromUser } from "../lib/actions";
 import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
 import Tweet from "./Tweet";
 
 const INITIAL_NUMBER_OF_TWEETS = 10;
 
-export default function LoadMoreTweets() {
+export default function LoadMoreTweetsFromUser({ id }: { id: string }) {
   const container = useRef<HTMLDivElement | null>(null);
   const { isInView } = useInView(container);
   const [tweetData, setTweetData] = useState<TweetWithAuthor[]>([]);
@@ -45,7 +45,7 @@ export default function LoadMoreTweets() {
 
   useEffect(() => {
     if (isInView && hasMoreTweets) {
-      fetchTweets({ offset, limit }).then((data) => {
+      fetchTweets({ offset, limit, id }).then((data) => {
         // console.log(
         //   `Length: ${tweetData.length} offset: ${offset} limit: ${limit}`
         // );
@@ -56,7 +56,7 @@ export default function LoadMoreTweets() {
         }
       });
     }
-  }, [isInView, offset, limit, tweetData.length, hasMoreTweets, router]);
+  }, [isInView, offset, limit, tweetData.length, hasMoreTweets, router, id]);
 
   return (
     <div>
