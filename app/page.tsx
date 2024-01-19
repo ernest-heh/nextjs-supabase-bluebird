@@ -1,8 +1,6 @@
 import AuthButtonServer from "./components/AuthButtonServer";
 import LoadMoreTweets from "./components/LoadMoreTweets";
 import NewTweet from "./components/NewTweet";
-import RightSideBar from "./components/RightSideBar";
-import SideNav from "./components/SideNav";
 import Tweet from "./components/Tweet";
 import { fetchTweets } from "./lib/actions";
 import { createSupabaseServerComponentClient } from "./lib/supabase/supabase-server";
@@ -18,7 +16,7 @@ export default async function Home() {
 
   const initialTweets = await fetchTweets({
     offset: 0,
-    limit: INITIAL_NUMBER_OF_TWEETS - 1,
+    limit: INITIAL_NUMBER_OF_TWEETS,
   });
 
   return (
