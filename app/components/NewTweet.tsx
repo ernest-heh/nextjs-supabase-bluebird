@@ -2,20 +2,52 @@
 
 import { User } from "@supabase/supabase-js";
 import Image from "next/image";
-import { addTweet } from "../lib/actions";
-import { useRef } from "react";
-import { useFormStatus } from "react-dom";
 import Link from "next/link";
+import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
+import { addTweet } from "../lib/actions";
+import { TweetSchema } from "../lib/types";
+import { useRef } from "react";
 
 export default function NewTweet({ user }: { user: User }) {
   const ref = useRef<HTMLFormElement>(null);
 
+  const handleSubmit = async (formData: FormData) => {
+    // construct a new tweet object
+    const newTweet = {
+      title: formData.get("title"),
+    };
+
+    // client validation with zod
+    const result = TweetSchema.safeParse(newTweet);
+
+    if (!result.success) {
+      let errorMessage = "";
+
+      result.error.issues.forEach((issue) => {
+        errorMessage += `${issue.message}\n`;
+      });
+
+      toast.error(errorMessage);
+
+      return;
+    }
+
+    const response = await addTweet(result.data);
+
+    if (response?.error) {
+      // output error message
+      toast.error(response.error);
+    }
+
+    // reset form
+    ref.current?.reset();
+  };
+
   return (
     <form
-      action={async (formData) => {
-        await addTweet(formData);
-        ref.current?.reset();
-      }}
+      action={handleSubmit}
+      name="title"
       className="flex p-3 gap-3 border-b border-neutral-200 dark:border-white/20"
       ref={ref}
     >
@@ -44,14 +76,15 @@ export default function NewTweet({ user }: { user: User }) {
 }
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending, data } = useFormStatus();
   return (
     <button
       type="submit"
       aria-disabled={pending}
+      disabled={pending}
       className={`w-min self-end bg-twitter text-white px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:bg-opacity-80 transition duration-200 ${
         pending && "opacity-50 cursor-not-allowed"
-      }`}
+      } ${!data && "opacity-50 cursor-not-allowed"}`}
     >
       Post
     </button>
