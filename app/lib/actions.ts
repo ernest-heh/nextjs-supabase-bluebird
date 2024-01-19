@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "./supabase/supabase-server";
 import { Profile } from "./global";
+import { TweetSchema } from "./types";
 
 interface FetchTweetProps {
   offset: number;
@@ -79,9 +80,21 @@ export const fetchTotalTweetsFromUser = async (id: string) => {
   return data?.length;
 };
 
-export const addTweet = async (formData: FormData) => {
-  const title = String(formData.get("title"));
+export const addTweet = async (newTweet: unknown) => {
+  // const title = String(formData.get("title"));
 
+  // server-side validation
+  const result = TweetSchema.safeParse(newTweet);
+
+  if (!result.success) {
+    let errorMessage = "";
+
+    result.error.issues.forEach((issue) => {
+      errorMessage += `${issue.path[0]}: ${issue.message}.\n`;
+    });
+
+    return { error: errorMessage };
+  }
   const supabase = await createSupabaseServerClient();
 
   const {
@@ -89,9 +102,15 @@ export const addTweet = async (formData: FormData) => {
   } = await supabase.auth.getUser();
 
   if (user) {
-    await supabase.from("tweets").insert({ title, user_id: user.id });
-
-    revalidatePath("/");
+    try {
+      await supabase
+        .from("tweets")
+        .insert({ title: result.data.title, user_id: user.id });
+    } catch (error) {
+      throw new Error(`Error adding tweet: ${error}`);
+    } finally {
+      revalidatePath("/");
+    }
   }
 };
 

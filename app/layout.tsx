@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import SideNav from "./components/SideNav";
+import { Toaster } from "sonner";
 import RightSideBar from "./components/RightSideBar";
+import SideNav from "./components/SideNav";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "BlueBird",
@@ -20,6 +20,7 @@ export default function RootLayout({
         <SideNav />
         <main className="w-full max-w-[600px] h-full min-h-screen border-x border-neutral-200 dark:border-white/20">
           {children}
+          <Toaster position="top-right" />
         </main>
         <RightSideBar />
       </body>
