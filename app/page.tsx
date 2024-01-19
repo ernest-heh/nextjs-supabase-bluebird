@@ -16,9 +16,9 @@ export default async function Home() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const tweets = await fetchTweets({
+  const initialTweets = await fetchTweets({
     offset: 0,
-    limit: INITIAL_NUMBER_OF_TWEETS,
+    limit: INITIAL_NUMBER_OF_TWEETS - 1,
   });
 
   return (
@@ -35,7 +35,7 @@ export default async function Home() {
         </div>
       )}
 
-      {tweets.map((tweet) => (
+      {initialTweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
       <LoadMoreTweets />

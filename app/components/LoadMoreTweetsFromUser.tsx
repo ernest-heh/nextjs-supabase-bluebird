@@ -1,26 +1,35 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import useInView from "../hooks/useInView";
 import { fetchTweets } from "../lib/actions";
 import { createSupabaseBrowserClient } from "../lib/supabase/supabase-client";
 import Tweet from "./Tweet";
 
-const INITIAL_NUMBER_OF_TWEETS = 10;
+const MAX_NUMBER_OF_TWEETS = 10;
 
 export default function LoadMoreTweetsFromUser({ id }: { id: string }) {
   const container = useRef<HTMLDivElement | null>(null);
   const { isInView } = useInView(container);
   const [tweetData, setTweetData] = useState<TweetWithAuthor[]>([]);
   const [hasMoreTweets, setHasMoreTweets] = useState(true);
-
-  const offset = tweetData.length + INITIAL_NUMBER_OF_TWEETS;
-  const limit = offset + INITIAL_NUMBER_OF_TWEETS - 1;
+  const [page, setPage] = useState(1);
 
   const supabase = createSupabaseBrowserClient();
   const router = useRouter();
+
+  const getFromAndTo = useCallback(() => {
+    let from = page * MAX_NUMBER_OF_TWEETS;
+    let to = from + MAX_NUMBER_OF_TWEETS;
+
+    if (page > 0) {
+      from++;
+    }
+
+    return { from, to };
+  }, [page]);
 
   useEffect(() => {
     const channel = supabase
@@ -45,7 +54,8 @@ export default function LoadMoreTweetsFromUser({ id }: { id: string }) {
 
   useEffect(() => {
     if (isInView && hasMoreTweets) {
-      fetchTweets({ offset, limit, id }).then((data) => {
+      const { from, to } = getFromAndTo();
+      fetchTweets({ offset: from, limit: to, id }).then((data) => {
         // console.log(
         //   `Length: ${tweetData.length} offset: ${offset} limit: ${limit}`
         // );
@@ -53,10 +63,19 @@ export default function LoadMoreTweetsFromUser({ id }: { id: string }) {
           setHasMoreTweets(false);
         } else {
           setTweetData((prevData) => [...prevData, ...data]);
+          setPage(page + 1);
         }
       });
     }
-  }, [isInView, offset, limit, tweetData.length, hasMoreTweets, router, id]);
+  }, [
+    isInView,
+    getFromAndTo,
+    page,
+    tweetData.length,
+    hasMoreTweets,
+    router,
+    id,
+  ]);
 
   return (
     <div>

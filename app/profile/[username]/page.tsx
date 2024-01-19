@@ -20,9 +20,9 @@ export default async function ProfilePage({
 
   const userId = user && (user.id as string);
 
-  const tweets = await fetchTweets({
+  const initialTweets = await fetchTweets({
     offset: 0,
-    limit: INITIAL_NUMBER_OF_TWEETS - 1,
+    limit: INITIAL_NUMBER_OF_TWEETS,
     id: userId,
   });
 
@@ -70,7 +70,7 @@ export default async function ProfilePage({
       </div>
 
       <div className="">
-        {tweets.map((tweet) => (
+        {initialTweets.map((tweet) => (
           <Tweet key={tweet.id} tweet={tweet} />
         ))}
         <LoadMoreTweetsFromUser id={userId ?? ""} />
