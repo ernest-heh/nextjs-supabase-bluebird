@@ -10,7 +10,13 @@ interface FetchTweetProps {
   id?: string | null;
 }
 
-export const fetchTweets = async ({ offset, limit, id }: FetchTweetProps) => {
+const MAX_NUMBER_OF_TWEETS = 10;
+
+export const fetchTweets = async ({
+  offset = 0,
+  limit = MAX_NUMBER_OF_TWEETS,
+  id,
+}: FetchTweetProps) => {
   const supabase = await createSupabaseServerClient();
 
   const {
