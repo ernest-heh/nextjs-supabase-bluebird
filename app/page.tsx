@@ -18,7 +18,7 @@ export default async function Home() {
 
   const tweets = await fetchTweets({
     offset: 0,
-    limit: INITIAL_NUMBER_OF_TWEETS - 1,
+    limit: INITIAL_NUMBER_OF_TWEETS,
   });
 
   return (

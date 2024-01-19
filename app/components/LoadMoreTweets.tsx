@@ -16,7 +16,7 @@ export default function LoadMoreTweets() {
   const [tweetData, setTweetData] = useState<TweetWithAuthor[]>([]);
   const [hasMoreTweets, setHasMoreTweets] = useState(true);
 
-  const offset = tweetData.length + INITIAL_NUMBER_OF_TWEETS;
+  const offset = tweetData.length + INITIAL_NUMBER_OF_TWEETS + 1;
   const limit = offset + INITIAL_NUMBER_OF_TWEETS - 1;
 
   const supabase = createSupabaseBrowserClient();

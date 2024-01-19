@@ -4,6 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 export default function RightSideBar() {
   return (
     <section className="hidden lg:flex w-[400px] pb-20 flex-col gap-2">
+      {/* Search */}
       <div
         className="fixed top-0 z-10 py-2 bg-background ps-6"
         style={{ width: "inherit" }}
@@ -29,7 +30,8 @@ export default function RightSideBar() {
       </div>
 
       <div className="sticky top-0 pt-16 ps-6 flex flex-col gap-4">
-        <div className="p-4 pt-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 space-y-2">
+        {/* Get Verified */}
+        {/* <div className="p-4 pt-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 space-y-2">
           <h2 className="font-bold text-xl">Get Verified</h2>
           <p className="font-semibold text-sm">
             Subscribe to unlock new features.
@@ -37,10 +39,10 @@ export default function RightSideBar() {
           <button className="rounded-full text-white font-bold bg-zinc-800 dark:bg-twitter py-[0.4em] px-4 hover:bg-opacity-80 transition duration-200">
             Get Verified
           </button>
-        </div>
+        </div> */}
 
         {/* Trending */}
-        <div className="pt-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800">
+        {/* <div className="pt-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800">
           <h2 className="font-bold text-xl pb-2 px-4">Trends for you</h2>
 
           {Array.from({ length: 5 }).map((_, i) => (
@@ -62,7 +64,7 @@ export default function RightSideBar() {
           >
             Show more
           </a>
-        </div>
+        </div> */}
 
         {/* Who to Follow */}
         <div className="pt-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800">
