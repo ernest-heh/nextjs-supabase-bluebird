@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createSupabaseServerClient } from "./supabase/supabase-server";
 import { Profile } from "./global";
-import { TweetSchema } from "./types";
+import { createSupabaseServerClient } from "./supabase/supabase-server";
+import { TweetFormSchema, TweetFormSchemaType } from "./types";
+import { ZodError } from "zod";
 
 interface FetchTweetProps {
   offset: number;
@@ -80,21 +81,22 @@ export const fetchTotalTweetsFromUser = async (id: string) => {
   return data?.length;
 };
 
-export const addTweet = async (newTweet: unknown) => {
+export const addTweet = async (data: TweetFormSchemaType) => {
   // const title = String(formData.get("title"));
 
-  // server-side validation
-  const result = TweetSchema.safeParse(newTweet);
+  // // server-side validation
+  const result = TweetFormSchema.safeParse(data);
 
-  if (!result.success) {
-    let errorMessage = "";
+  // if (!result.success) {
+  //   let errorMessage = "";
 
-    result.error.issues.forEach((issue) => {
-      errorMessage += `${issue.path[0]}: ${issue.message}.\n`;
-    });
+  //   result.error.issues.forEach((issue) => {
+  //     errorMessage += `${issue.path[0]}: ${issue.message}.\n`;
+  //   });
 
-    return { error: errorMessage };
-  }
+  //   return { error: errorMessage };
+  // }
+
   const supabase = await createSupabaseServerClient();
 
   const {
@@ -102,14 +104,14 @@ export const addTweet = async (newTweet: unknown) => {
   } = await supabase.auth.getUser();
 
   if (user) {
-    try {
+    if (!result.success) {
+      return { success: false, message: result.error.format() };
+    } else {
       await supabase
         .from("tweets")
         .insert({ title: result.data.title, user_id: user.id });
-    } catch (error) {
-      console.log(`Error adding tweet: ${error}`);
-    } finally {
       revalidatePath("/");
+      return { success: true, message: "Tweet added successfully" };
     }
   }
 };

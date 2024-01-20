@@ -1,4 +1,3 @@
-import AuthButtonClient from "./components/AuthButtonClient";
 import AuthButtonServer from "./components/AuthButtonServer";
 import LoadMoreTweets from "./components/LoadMoreTweets";
 import NewTweet from "./components/NewTweet";
@@ -31,7 +30,7 @@ export default async function Home() {
       {session ? (
         <NewTweet user={session.user} />
       ) : (
-        <div className="flex justify-center p-3 gap-3 border-t border-neutral-200 dark:border-white/20">
+        <div className="flex justify-center py-20 border-y border-neutral-200 dark:border-white/20">
           <AuthButtonServer />
         </div>
       )}
