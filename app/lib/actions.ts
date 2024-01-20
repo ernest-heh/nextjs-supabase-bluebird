@@ -107,7 +107,7 @@ export const addTweet = async (newTweet: unknown) => {
         .from("tweets")
         .insert({ title: result.data.title, user_id: user.id });
     } catch (error) {
-      throw new Error(`Error adding tweet: ${error}`);
+      console.log(`Error adding tweet: ${error}`);
     } finally {
       revalidatePath("/");
     }

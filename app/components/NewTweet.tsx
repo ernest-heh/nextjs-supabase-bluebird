@@ -47,7 +47,11 @@ export default function NewTweet({ user }: { user: User }) {
   return (
     <form
       action={handleSubmit}
-      name="title"
+      // action={async (formData) => {
+      //   await addTweet(formData);
+      //   ref.current?.reset();
+      // }}
+      // name="title"
       className="flex p-3 gap-3 border-b border-neutral-200 dark:border-white/20"
       ref={ref}
     >

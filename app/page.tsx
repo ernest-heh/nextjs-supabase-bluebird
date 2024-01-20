@@ -1,3 +1,4 @@
+import AuthButtonClient from "./components/AuthButtonClient";
 import AuthButtonServer from "./components/AuthButtonServer";
 import LoadMoreTweets from "./components/LoadMoreTweets";
 import NewTweet from "./components/NewTweet";
@@ -13,6 +14,8 @@ export default async function Home() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
+
+  // console.log(session?.user);
 
   const initialTweets = await fetchTweets({
     offset: 0,
