@@ -30,7 +30,7 @@ export default async function Home() {
       {session ? (
         <NewTweet user={session.user} />
       ) : (
-        <div className="flex justify-center py-20 border-y border-neutral-200 dark:border-white/20">
+        <div className="flex justify-center py-20 border-b border-neutral-200 dark:border-white/20">
           <AuthButtonServer />
         </div>
       )}
