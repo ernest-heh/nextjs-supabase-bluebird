@@ -8,6 +8,7 @@ import {
 } from "@/app/lib/actions";
 import { GoArrowLeft } from "react-icons/go";
 import Image from "next/image";
+import { Suspense } from "react";
 
 const INITIAL_NUMBER_OF_TWEETS = 10;
 
@@ -69,12 +70,14 @@ export default async function ProfilePage({
         </div>
       </div>
 
-      <div className="">
-        {initialTweets.map((tweet) => (
-          <Tweet key={tweet.id} tweet={tweet} />
-        ))}
-        <LoadMoreTweetsFromUser id={userId ?? ""} />
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="">
+          {initialTweets.map((tweet) => (
+            <Tweet key={tweet.id} tweet={tweet} />
+          ))}
+          <LoadMoreTweetsFromUser id={userId ?? ""} />
+        </div>
+      </Suspense>
     </>
   );
 }

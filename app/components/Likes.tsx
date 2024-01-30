@@ -48,7 +48,7 @@ export default function Likes({
 
   return (
     <button
-      className="flex items-center group self-start p-1 -m-1"
+      className="flex items-center group self-start p-1 -m-1 text-neutral-500"
       onClick={handleLikes}
     >
       <div className="rounded-full aspect-square p-2 -ms-2 group-hover:text-like group-hover:bg-like/20 transition duration-100 ">

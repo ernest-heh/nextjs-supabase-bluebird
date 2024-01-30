@@ -79,7 +79,7 @@ export default function NewTweet({ user }: { user: User }) {
             className={cn({
               "w-min self-end bg-twitter text-white px-[1.2em] py-[0.5em] text-sm font-bold rounded-full hover:bg-opacity-80 transition duration-200":
                 true,
-              "opacity-50 cursor-not-allowed":
+              "opacity-50 pointer-events-none":
                 isSubmitting || watch("title").length === 0,
             })}
           >

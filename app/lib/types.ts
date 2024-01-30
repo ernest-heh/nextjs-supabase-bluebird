@@ -6,6 +6,12 @@ export const TweetFormSchema = z.object({
     .trim()
     .min(1, { message: "Tweet cannot be empty." })
     .max(280, { message: "Tweet cannot be longer than 280 characters." }),
+  name: z.string().trim().min(1, { message: "Please type in your full name." }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: "Email cannot be empty." })
+    .email({ message: "Please type in a valid email." }),
 });
 
 // export type Fields = {
